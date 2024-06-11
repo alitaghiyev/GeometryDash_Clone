@@ -4,7 +4,6 @@ namespace GeometryDash
 {
     public class MusicManager : MonoBehaviour
     {
-
         public AudioSource musicSource;
         public AudioClip[] musicClips;
 

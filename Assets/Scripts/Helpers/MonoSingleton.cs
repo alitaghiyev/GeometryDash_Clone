@@ -5,7 +5,7 @@ namespace GeometryDash
     where T : MonoSingleton<T>
     {
         public static T instance;
-        public static T i
+        public static T Instance
         {
             get
             {
@@ -20,7 +20,7 @@ namespace GeometryDash
 
         protected void Awake()
         {
-            i = (T)this;
+            Instance = (T)this;
         }
     }
 }

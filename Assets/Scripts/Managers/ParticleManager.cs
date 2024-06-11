@@ -30,7 +30,7 @@ namespace GeometryDash
             Particle p = Array.Find(particles, particle => particle.particleType == type);
             GameObject particleObject = Instantiate(p.particlePrefab);
             particleObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
-            //TODO: object pool kullanildigi zaman partcilebehaviour disable olarak ayarlanacak
+            //TODO: particle bitince davranışı object pool eklenme durumuna göre güncellenecek
         }
 
         public void DeadParticle(GameManager manager)

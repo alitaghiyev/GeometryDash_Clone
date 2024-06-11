@@ -4,14 +4,12 @@ namespace GeometryDash.Interaction
     [RequireComponent(typeof(CircleCollider2D))]
     public class Portal : MonoBehaviour, IInteractable
     {
-        [Tooltip("Portalden gectikten sonra playerin hangi modda olacagini belirler")]
+        [Tooltip("Determines the player's mode after passing through the portal")]
         [SerializeField] private PlayerMode nextPlayerMode;
-
-        private CircleCollider2D _collider;
+        
         private void Start()
         {
-            _collider = GetComponent<CircleCollider2D>();
-            _collider.isTrigger = true;
+            this.SetColliderAsTrigger<CircleCollider2D>();
         }
         public void Interact(GameObject interactor)
         {

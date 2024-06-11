@@ -1,13 +1,12 @@
 using UnityEngine;
-
 namespace GeometryDash
 {
     public class ApplicationController : MonoBehaviour
-    {
-        [SerializeField] private int _targetFrameValue;
+    { 
+        [SerializeField] private int targetFrameValue;
         void Start()
         {
-            Application.targetFrameRate = _targetFrameValue;
+            Application.targetFrameRate = targetFrameValue;
         }
     }
 }

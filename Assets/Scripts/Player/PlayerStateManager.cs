@@ -1,77 +1,65 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using System.Collections.Generic;
+
 namespace GeometryDash
 {
     #region PlayerModeEunum
-
-    // Disaridan erisim gerli oldugu icin class disinda tanimlandi
     public enum PlayerMode
     {
         Cube,
         Ship
+    }
+    [Serializable]
+    public struct PlayerModeConfig
+    {
+        public PlayerMode mode;
+        public GameObject visual;
+        public MonoBehaviour controller;
     }
     #endregion
 
     [RequireComponent(typeof(PlayerAirController))]
     [RequireComponent(typeof(PlayerLandController))]
     [RequireComponent(typeof(CollisionDetection))]
-
     public class PlayerStateManager : MonoBehaviour
     {
-        [Header("Land Player Variable")]
-        [SerializeField] private GameObject _cubeVisual;
-        private PlayerLandController _landController => GetComponent<PlayerLandController>();
-
-        [Space(10)]
-        [Header("Air Player Variable")]
-        [SerializeField] private GameObject ShipVisual;
-        private PlayerAirController _airController => GetComponent<PlayerAirController>();
-
-
-        [Space(10)]
+        [Header("Player Modes")]
+        [SerializeField] private PlayerModeConfig[] playerModes;
+    
         [Header("Start Player Mode")]
-        [Tooltip("Oyun basladiginda hangi modda baslayacagi buradan belirlenir")]
-        [SerializeField] private PlayerMode StartPlayerMode;
-
-        [HideInInspector] public PlayerMode CurrentPlayerMode;
-
-        //yeni modlar eklenirse kontrol daha kolay olucaktir.
-        //TODO: Mod sayisinin fazla olmasi durumunda Abstrack class kullanilarak Finite State Machine kurulmasi daha mantiklidir
-        private Dictionary<PlayerMode, System.Action> playerModeAction;
+        [SerializeField] private PlayerMode startPlayerMode;
+        [HideInInspector] public PlayerMode currentPlayerMode;
+    
+        private Dictionary<PlayerMode, Action> _playerModeActions;
 
         private void Awake()
         {
-            playerModeAction = new Dictionary<PlayerMode, System.Action>
-        {
-            {PlayerMode.Cube, () => Change(false, true) },
-            {PlayerMode.Ship, () => Change(true, false) }
-        };
-
-            SetState(StartPlayerMode);
-        }
-
-        public void ResetGameState(GameManager manager)
-        {
-            SetState(manager.GetResetMode());
+            _playerModeActions = new Dictionary<PlayerMode, Action>();
+            foreach (var modeConfig in playerModes)
+            {
+                _playerModeActions[modeConfig.mode] = () => ChangeMode(modeConfig);
+            }
+            ResetGameState();
         }
         public void SetState(PlayerMode newState)
         {
-            CurrentPlayerMode = newState;
-            if (playerModeAction.ContainsKey(CurrentPlayerMode))
+            currentPlayerMode = newState;
+            if (_playerModeActions.ContainsKey(currentPlayerMode))
             {
-                playerModeAction[CurrentPlayerMode]?.Invoke();
-                //change particle
+                _playerModeActions[currentPlayerMode]?.Invoke();
             }
-            else Debug.LogError("Unknown player mode: " + CurrentPlayerMode);
+            else
+                Debug.LogError("Unknown player mode: " + currentPlayerMode);
         }
-
-        private void Change(bool air, bool land)
+        private void ChangeMode(PlayerModeConfig config)
         {
-            _cubeVisual.SetActive(land);
-            _landController.enabled = land;
-
-            ShipVisual.SetActive(air);
-            _airController.enabled = air;
+            foreach (var modeConfig in playerModes)
+            {
+                modeConfig.visual.SetActive(modeConfig.mode == config.mode);
+                modeConfig.controller.enabled = (modeConfig.mode == config.mode);
+            }
         }
+        public void ResetGameState()=>SetState(startPlayerMode);
     }
 }

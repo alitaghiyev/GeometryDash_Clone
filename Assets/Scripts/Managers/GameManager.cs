@@ -13,16 +13,13 @@ namespace GeometryDash
 
         public void ResetGame()
         {
-            EventManager.i.RestartEvent?.Invoke(this);
+            EventManager.Instance.RestartEvent?.Invoke(this);
         }
 
-
-        //bu metodlar yardimi ile eventin tetikledigi scriptlerde gerekli degerlere erisim sagliyoruz
-        public GameObject GetPlayer() => Player;//ileride birden fazla farkli event tetikleye biliriz bu durumda her scriptde player tanimlak zorunda kalmayız
+        public GameObject GetPlayer() => Player;
         public float GetResetTime() => _restartDelay;
-        public PlayerMode GetResetMode() => PlayerMode.Cube;
 
-
+        
         
         public void TimeScaleIsZero() => Time.timeScale = 0;
         public void TimeScaleIsOne() => Time.timeScale = 1;

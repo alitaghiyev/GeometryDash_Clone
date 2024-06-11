@@ -7,8 +7,7 @@ namespace GeometryDash
     {
         #region Wait Extension
         /// <summary>
-        /// Bu extension her scripte coroutine yazmaya gerek kalmadan istedigimiz kadar bekletip sonra bir olayi tetiklememizi saglar
-        /// Kullanim sekli -------  this.Wait(BeklemeSuresi , () => { yapilacak isle; });
+        /// How to use --> "this.Wait(delay , () => { do it; })";
         /// </summary>
         /// <param name="mono"></param>
         /// <param name="delay"></param>
@@ -25,5 +24,16 @@ namespace GeometryDash
         }
         #endregion
 
+        #region Collider Extension
+        public static void SetColliderAsTrigger<T>(this MonoBehaviour monoBehaviour) where T : Collider2D
+        {
+            T collider = monoBehaviour.GetComponent<T>();
+            if (collider != null)
+            {
+                collider.isTrigger = true;
+            }
+        }
+        #endregion
+      
     }
 }

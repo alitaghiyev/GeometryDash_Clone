@@ -96,8 +96,8 @@ GameObject:
   - component: {fileID: 4094077401257204389}
   - component: {fileID: 5131688598129343949}
   - component: {fileID: 851696931151739087}
-  - component: {fileID: 2431409009646993257}
   - component: {fileID: 7091943421419803435}
+  - component: {fileID: 2431409009646993257}
   - component: {fileID: 7580337901774031054}
   - component: {fileID: 1558012351248460038}
   m_Layer: 0
@@ -215,6 +215,27 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &7091943421419803435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541523058997447083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9cbd3ca22d1bd42a53c38faf94793d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerModes:
+  - mode: 0
+    visual: {fileID: 42261482195219300}
+    controller: {fileID: 2431409009646993257}
+  - mode: 1
+    visual: {fileID: 5135531033461094136}
+    controller: {fileID: 7580337901774031054}
+  startPlayerMode: 0
+  currentPlayerMode: 0
 --- !u!114 &2431409009646993257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,22 +254,6 @@ MonoBehaviour:
   _playerSprite: {fileID: 1553920996442050469}
   _inputReader: {fileID: 0}
   _collisionDetection: {fileID: 851696931151739087}
---- !u!114 &7091943421419803435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2541523058997447083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9cbd3ca22d1bd42a53c38faf94793d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cubeVisual: {fileID: 42261482195219300}
-  ShipVisual: {fileID: 5135531033461094136}
-  StartPlayerMode: 0
-  CurrentPlayerMode: 1
 --- !u!114 &7580337901774031054
 MonoBehaviour:
   m_ObjectHideFlags: 0

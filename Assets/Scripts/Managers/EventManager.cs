@@ -5,7 +5,6 @@ namespace GeometryDash
     public class EventManager : MonoSingleton<EventManager>
     {
         #region  GENERIC EVENT CLASSES
-        //bu classlar yardimi ile istenen sayida ve türde parametre alan eventler yazilacak
         [Serializable] public class GameEvent : UnityEvent { }
         [Serializable] public class GameEvent<T0> : UnityEvent<T0> { }
         [Serializable] public class GameEvent<T0, T1> : UnityEvent<T0, T1> { }

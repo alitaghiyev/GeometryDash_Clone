@@ -7,6 +7,7 @@ namespace GeometryDash
         [Header("Movement and Animation Variable")]
         [SerializeField] private float _upwardGravityScale = 4;
         [SerializeField] private float _downwardGravityScale = 3;
+        [Space(5)]
         [SerializeField] private float _spriteRotationSpeed = 2f;
         [SerializeField] private float _spriteRotationLimitAngle = 45f;
 
@@ -15,29 +16,29 @@ namespace GeometryDash
         [SerializeField] private Transform _playerSprite;
         [SerializeField] private InputReader _inputReader;
 
-        private Rigidbody2D _rb => GetComponent<Rigidbody2D>();
+        private Rigidbody2D _playerRb => GetComponent<Rigidbody2D>();
         #endregion
 
-        private void Awake() => _rb.gravityScale = _downwardGravityScale;
-
+        private void Awake() => _playerRb.gravityScale = _downwardGravityScale;
         private void Update()
         {
             PerformAction();
             Animate();
         }
-  
         public void PerformAction()
         {
-            _rb.gravityScale = CalculateGraivty();
+            _playerRb.gravityScale = CalculateGravity();
         }
 
         public void Animate()
         {
-            float angle = Mathf.Clamp(_rb.velocity.y * _spriteRotationSpeed, -_spriteRotationLimitAngle, _spriteRotationLimitAngle);
+            var angle = Mathf.Clamp(_playerRb.velocity.y * _spriteRotationSpeed,
+                -_spriteRotationLimitAngle, 
+                _spriteRotationLimitAngle);
             _playerSprite.rotation = Quaternion.Euler(0, 0, angle);
         }
 
-        private float CalculateGraivty()
+        private float CalculateGravity()
         {
             return (_inputReader.IsHolding)? -_upwardGravityScale: _downwardGravityScale;
         }

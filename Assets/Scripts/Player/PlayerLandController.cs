@@ -14,7 +14,7 @@ namespace GeometryDash
         [SerializeField] private Transform _playerSprite;
         [SerializeField] private InputReader _inputReader;
         [SerializeField] private CollisionDetection _collisionDetection;
-        private Rigidbody2D _rb => GetComponent<Rigidbody2D>();
+        private Rigidbody2D _rb;
 
         #endregion
 
@@ -24,10 +24,10 @@ namespace GeometryDash
             _rb.gravityScale = _gravityScale;
             _inputReader.JumpEvent += PerformAction;
         }  
-
         private void OnDisable() => _inputReader.JumpEvent -= PerformAction;
         #endregion
 
+        private void Awake()=> _rb = GetComponent<Rigidbody2D>();
 
         void Update() => Animate();
 

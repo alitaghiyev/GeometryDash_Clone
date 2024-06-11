@@ -7,18 +7,18 @@ namespace GeometryDash
     public class InputReader : MonoBehaviour, InputActions.IPlayerActions
     {
         /// <summary>
-        /// Sadece tiklama aninda ziplama icin
+        /// For jumping only at the moment of clicking
         /// </summary>
         [HideInInspector]
         public event Action JumpEvent;
 
         /// <summary>
-        /// Hold inputu icin kullanilir, bunun disinda isground olmasi halinde kupun yeni input beklemeden ziplamaya devam etmesi icin kullanila bilir
+        /// Used for hold input; can be used for continuous jumping without waiting for new input when the cube is grounded
         /// </summary>
         [HideInInspector]
         public bool IsHolding { get; private set; }
 
-
+        
         #region ENABLE AND DISABLE ACTION OBJECT
         private InputActions action;
         private void Start()
@@ -36,17 +36,17 @@ namespace GeometryDash
 
         public void OnJumpHold(InputAction.CallbackContext context)
         {
-            if (context.performed) //eylem tetiklendiginde calisir
+            if (context.performed) // executed when the action is performed
             {
                 IsHolding = true;
                 JumpEvent?.Invoke();
             }
-            else if (context.canceled)//eylem iptal edildiginde calisir
+            else if (context.canceled) // executed when the action is canceled
             {
                 IsHolding = false;
             }
-            //ve ya 
-            //IsHolding = context.ReadValueAsButton();
+            // or 
+            // IsHolding = context.ReadValueAsButton();
         }
     }
 }

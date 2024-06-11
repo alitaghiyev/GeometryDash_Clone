@@ -7,7 +7,7 @@ namespace GeometryDash
     {
         private const string ObstacleTag = "Obstacle";
 
-        public bool IsGround { get { return OnGround(); } }
+        public bool IsGround => OnGround();
 
         [Header("Ground Detection Box Size")]
         [SerializeField] private Vector2 _centerOfGroun;
@@ -20,55 +20,56 @@ namespace GeometryDash
 
 
         [Space(10)]
-        [Header("Groun Mask")]
+        [Header("Ground Mask")]
         [SerializeField] private LayerMask _groundMask;
 
 
         private void Update()
         {
-            if (OnWall()) EventManager.i.DeadEvent?.Invoke();
+            if (OnWall())
+                EventManager.Instance.DeadEvent?.Invoke();
         }
 
         /// <summary>
-        /// ziplama eventi tetiklendiginde ground kontrolu yapar
-        /// istege bagli olarak boyutlandirila bilir bu sayede coyote etkisi yaratir
+        /// ground check for jump action
+        /// It can be resized optionally, allowing for the creation of a "COYOTE" effect.
         /// </summary>
         /// <returns></returns>
         private bool OnGround()
         {
-            return Physics2D.OverlapBox((Vector2)transform.position + _centerOfGroun, _sizeOfGround, 0, _groundMask);
+            return Physics2D.OverlapBox(
+                (Vector2)transform.position + _centerOfGroun,
+                _sizeOfGround, 0, _groundMask);
         }
 
         /// <summary>
-        /// player parentinin on kisminda konumlandirilir playerin duvarlara onden temasi zamani game over olur
+        /// The player is positioned in front of the parent and collision with walls is controlled
         /// </summary>
-        /// <returns></returns>
+        /// <returns> bool </returns>
         private bool OnWall()
         {
-            return Physics2D.OverlapBox((Vector2)transform.position + _centerOfWall, _centerOfWall, 0, _groundMask);
+            return Physics2D.OverlapBox(
+                (Vector2)transform.position + _centerOfWall, 
+                _centerOfWall, 0, _groundMask);
         }
 
         /// <summary>
-        /// Bu metod diger tum carpismalari kontrol eder
+        /// This method checks all other collisions such as finish, portal, obstacle.
         /// </summary>
-        /// <param name="other"></param>
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent(out IInteractable interactable))//finish, portal, ....
-            {
+            if (other.TryGetComponent(out IInteractable interactable))
                 interactable.Interact(this.gameObject);
-            }
             if (other.CompareTag(ObstacleTag))
-            {
-                EventManager.i.DeadEvent?.Invoke();
-            }
+                EventManager.Instance.DeadEvent?.Invoke();
         }
 
-
-
+        
 #if UNITY_EDITOR
         /// <summary>
-        /// Draw OnGround and OnWall 
+        /// Draws debugging gizmos to visualize the OnGround and OnWall detection areas.
+        /// Red gizmo represents the ground detection area.
+        /// Blue gizmo represents the wall detection area.
         /// </summary>
         private void OnDrawGizmosSelected()
         {
